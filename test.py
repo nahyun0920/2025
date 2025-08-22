@@ -1,4 +1,5 @@
 import streamlit as st
+import random
 
 st.set_page_config(page_title="스포츠 추천기", page_icon="🏃", layout="centered")
 
@@ -23,6 +24,7 @@ fitness = st.slider("👉 본인의 체력 수준은?", 1, 10, 5)
 # 추천 로직
 # -----------------------
 recommendations = []
+show_jiujitsu = False   # 주짓수 추천 여부 체크
 
 if personality == "활발하고 사교적인 성격":
     if fitness <= 4:
@@ -47,6 +49,7 @@ elif personality == "도전적이고 승부욕 강한 성격":
         recommendations = ["🥋 태권도 - 승부욕을 발휘하기 좋은 운동!", "🤼 유도 - 기술과 힘을 동시에!"]
     else:
         recommendations = ["🥋 주짓수 - 전략과 힘, 인내심을 모두 발휘!", "🏋️ 크로스핏 - 강한 정신력과 체력 발휘!"]
+        show_jiujitsu = True
 
 elif personality == "창의적이고 자유로운 성격":
     if fitness <= 4:
@@ -63,6 +66,7 @@ elif personality == "집중 잘하고 혼자 하는 걸 좋아하는 성격":
         recommendations = ["🏹 양궁 - 집중력 발휘에 최고!", "🏓 탁구(개인연습) - 혼자도 가능!"]
     else:
         recommendations = ["🥋 주짓수 - 집중력+기술+체력 완벽 조합!", "⛳ 골프 - 집중과 체력 모두 활용!"]
+        show_jiujitsu = True
 
 # -----------------------
 # 결과 출력
@@ -71,6 +75,18 @@ st.subheader("🎉 추천 결과 🎉")
 for rec in recommendations:
     st.write(rec)
 
-st.info(f"체력 수준: **{fitness}/10** 에 맞춘 추천입니다!")
+# 주짓수 추천되면 기술 GIF 보여주기
+if show_jiujitsu:
+    st.markdown("### 🥋 주짓수 기술 예시")
 
+    jiujitsu_gifs = [
+        ("https://jiujitsulegacy.com/wp-content/uploads/2021/02/armbar.gif", "암바 (Armbar)"),
+        ("https://media.tenor.com/5UfrpsbR9P4AAAAC/bjj-sweep.gif", "스윕 (Sweep)"),
+        ("https://media.tenor.com/oxIkvhk1HqQAAAAC/triangle-choke-bjj.gif", "삼각조르기 (Triangle Choke)"),
+    ]
+
+    gif_url, caption = random.choice(jiujitsu_gifs)
+    st.image(gif_url, caption=caption, use_column_width=True)
+
+st.info(f"체력 수준: **{fitness}/10** 에 맞춘 추천입니다!")
 
