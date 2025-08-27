@@ -1,76 +1,72 @@
 import streamlit as st
+import random
 
-st.set_page_config(page_title="성격 유형별 스포츠 추천", page_icon="🏅", layout="centered")
+# 🎨 웹사이트 기본 설정
+st.set_page_config(page_title="🏋️ 나만의 스포츠 추천기", page_icon="⚽", layout="wide")
 
-st.title("🏅 성격 유형 기반 스포츠 추천 사이트")
-st.write("당신의 성격과 체력 수준에 맞는 스포츠를 추천해드립니다!")
+# 🌈 사이드바
+st.sidebar.title("⚡ 설정")
+st.sidebar.info("👉 성격유형과 체력수준을 선택하면 딱 맞는 스포츠를 추천해드립니다!")
 
-# ---------------- 입력 파트 ----------------
-# 성격 유형 선택
+# ✨ 헤더
+st.markdown(
+    """
+    <h1 style='text-align: center; color: #FF5733;'>
+    🏆 나에게 맞는 완벽한 스포츠 찾기 🏆
+    </h1>
+    <p style='text-align: center; color: gray; font-size:18px;'>
+    당신의 성격과 체력에 맞는 최고의 운동 종목을 추천해드립니다! 🚀
+    </p>
+    """,
+    unsafe_allow_html=True
+)
+
+# 📌 성격 유형 옵션
 personality = st.selectbox(
-    "당신의 성격 유형을 골라주세요:",
-    ["활발하고 사교적인 성격", "차분하고 인내심 강한 성격", "도전적이고 승부욕 강한 성격", 
-     "창의적이고 자유로운 성격", "집중 잘하고 혼자 하는 성격"]
+    "😀 당신의 성격 유형을 골라주세요!",
+    ["도전적인 타입 🔥", "차분한 타입 🌊", "에너지 넘치는 타입 ⚡", "분석적인 타입 🧠", "협동적인 타입 🤝"]
 )
 
-# 운동 목적 선택
-goal = st.radio(
-    "운동 목적은 무엇인가요?",
-    ["건강 유지", "다이어트", "경쟁에서 이기기", "재미", "사회성 향상"]
+# 📌 체력 수준 옵션
+fitness = st.radio(
+    "💪 현재 나의 체력 수준은?",
+    ["낮음 💤", "보통 🙂", "높음 🚀"],
+    horizontal=True
 )
 
-# 체력 수준 슬라이더
-fitness = st.slider("당신의 체력 수준을 선택하세요:", 1, 5, 3)
+# 📌 스포츠 데이터베이스
+sports_db = {
+    "낮음 💤": {
+        "도전적인 타입 🔥": ["요가 🧘", "필라테스 🤸", "가벼운 수영 🏊"],
+        "차분한 타입 🌊": ["산책 🚶", "탁구 🏓", "태극권 ☯️"],
+        "에너지 넘치는 타입 ⚡": ["줄넘기 🤾", "배드민턴 🏸", "댄스 🕺"],
+        "분석적인 타입 🧠": ["체스 복싱 🤯🥊", "볼링 🎳", "양궁 🏹"],
+        "협동적인 타입 🤝": ["배구 🏐", "볼링 🎳", "풋살 ⚽"]
+    },
+    "보통 🙂": {
+        "도전적인 타입 🔥": ["주짓수 🥋", "유도 🤼", "레슬링 🤼‍♂️", "펜싱 🤺"],
+        "차분한 타입 🌊": ["클라이밍 🧗", "수영 🏊", "승마 🐎"],
+        "에너지 넘치는 타입 ⚡": ["농구 🏀", "축구 ⚽", "하키 🏑", "런닝 🏃"],
+        "분석적인 타입 🧠": ["양궁 🏹", "펜싱 🤺", "체스 복싱 🤯🥊"],
+        "협동적인 타입 🤝": ["배구 🏐", "농구 🏀", "야구 ⚾"]
+    },
+    "높음 🚀": {
+        "도전적인 타입 🔥": ["종합격투기 🥊", "킥복싱 🥋", "주짓수 🥋", "철인 3종 경기 🏊🚴🏃"],
+        "차분한 타입 🌊": ["마라톤 🏃", "철인 3종 경기 🏊🚴🏃", "조정 🚣"],
+        "에너지 넘치는 타입 ⚡": ["럭비 🏉", "핸드볼 🤾", "스쿼시 🎾", "스케이트보드 🛹"],
+        "분석적인 타입 🧠": ["펜싱 🤺", "유도 🤼", "전략적 e스포츠 🎮"],
+        "협동적인 타입 🤝": ["야구 ⚾", "미식축구 🏈", "럭비 🏉", "농구 🏀"]
+    }
+}
 
-# ---------------- 추천 로직 ----------------
-recommendations = []
+# 🎲 추천 로직
+if st.button("🚀 나에게 맞는 스포츠 추천받기!"):
+    recommended_sports = sports_db[fitness][personality]
+    sport = random.choice(recommended_sports)
 
-if personality == "활발하고 사교적인 성격":
-    if fitness <= 2:
-        recommendations = ["⚽ 풋살", "🏓 탁구"]
-    elif fitness <= 4:
-        recommendations = ["⚽ 축구", "🏀 농구"]
-    else:
-        recommendations = ["🏉 럭비", "🏀 농구"]
+    st.success(f"✨ 당신에게 추천하는 스포츠는 바로... **{sport}** 입니다! ✨")
 
-elif personality == "차분하고 인내심 강한 성격":
-    if fitness <= 2:
-        recommendations = ["🧘 요가", "🚶‍♂️ 가벼운 조깅"]
-    elif fitness <= 4:
-        recommendations = ["🏊 수영", "🚴 자전거"]
-    else:
-        recommendations = ["🥋 주짓수", "🏃 마라톤"]
+    # 🎉 효과
+    st.balloons()
+    st.snow()
 
-elif personality == "도전적이고 승부욕 강한 성격":
-    if fitness <= 2:
-        recommendations = ["🏓 탁구", "🎯 다트"]
-    elif fitness <= 4:
-        recommendations = ["🥋 주짓수", "🤼 유도"]
-    else:
-        recommendations = ["🥋 주짓수", "🥊 복싱", "🥋 태권도"]
-
-elif personality == "창의적이고 자유로운 성격":
-    if fitness <= 2:
-        recommendations = ["🩰 발레", "🧘 요가"]
-    elif fitness <= 4:
-        recommendations = ["💃 댄스", "🛹 스케이트보드"]
-    else:
-        recommendations = ["🤸‍♂️ 체조", "🏄 서핑"]
-
-elif personality == "집중 잘하고 혼자 하는 성격":
-    if fitness <= 2:
-        recommendations = ["🎳 볼링", "🎯 양궁"]
-    elif fitness <= 4:
-        recommendations = ["🏌️ 골프", "🏹 양궁"]
-    else:
-        recommendations = ["🏊 철인 3종 경기", "🚵 산악 자전거"]
-
-# ---------------- 출력 파트 ----------------
-st.subheader("🎉 추천 결과 🎉")
-if recommendations:
-    for sport in recommendations:
-        st.write(f"- {sport}")
-else:
-    st.write("조건에 맞는 운동을 찾지 못했어요 😢")
-
-st.success("운동은 꾸준함이 가장 중요해요! 파이팅! 💪")
