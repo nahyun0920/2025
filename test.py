@@ -1,81 +1,76 @@
 import streamlit as st
 
-st.set_page_config(page_title="성격 기반 스포츠 추천", page_icon="🏅", layout="centered")
+st.set_page_config(page_title="성격 유형별 스포츠 추천", page_icon="🏅", layout="centered")
 
-st.title("🏅 성격 유형 & 체력 수준 기반 스포츠 추천 웹")
-st.write("성격과 체력에 맞는 스포츠 종목을 추천해드릴게요!")
+st.title("🏅 성격 유형 기반 스포츠 추천 사이트")
+st.write("당신의 성격과 체력 수준에 맞는 스포츠를 추천해드립니다!")
 
-# 성격유형 선택
-personality = st.radio(
-    "당신의 성격 유형을 선택하세요:",
-    ["활발하고 사교적인 성격", "차분하고 인내심 강한 성격", 
-     "도전적이고 승부욕 강한 성격", "창의적이고 자유로운 성격", 
-     "집중 잘하고 혼자 하는 걸 좋아하는 성격"]
+# ---------------- 입력 파트 ----------------
+# 성격 유형 선택
+personality = st.selectbox(
+    "당신의 성격 유형을 골라주세요:",
+    ["활발하고 사교적인 성격", "차분하고 인내심 강한 성격", "도전적이고 승부욕 강한 성격", 
+     "창의적이고 자유로운 성격", "집중 잘하고 혼자 하는 성격"]
 )
 
 # 운동 목적 선택
-goal = st.selectbox(
+goal = st.radio(
     "운동 목적은 무엇인가요?",
-    ["건강 유지", "다이어트", "경쟁/승부", "재미", "사회성 향상"]
+    ["건강 유지", "다이어트", "경쟁에서 이기기", "재미", "사회성 향상"]
 )
 
 # 체력 수준 슬라이더
-fitness = st.slider("당신의 현재 체력 수준을 선택하세요:", 1, 5, 3)
+fitness = st.slider("당신의 체력 수준을 선택하세요:", 1, 5, 3)
 
-st.markdown("---")
-
-# 추천 로직
+# ---------------- 추천 로직 ----------------
 recommendations = []
 
 if personality == "활발하고 사교적인 성격":
     if fitness <= 2:
-        recommendations = ["🏓 배드민턴", "🏐 발리볼"]
+        recommendations = ["⚽ 풋살", "🏓 탁구"]
     elif fitness <= 4:
         recommendations = ["⚽ 축구", "🏀 농구"]
     else:
-        recommendations = ["🏉 럭비", "🤾 핸드볼"]
+        recommendations = ["🏉 럭비", "🏀 농구"]
 
 elif personality == "차분하고 인내심 강한 성격":
     if fitness <= 2:
-        recommendations = ["🧘 요가", "🚶 가벼운 걷기"]
+        recommendations = ["🧘 요가", "🚶‍♂️ 가벼운 조깅"]
     elif fitness <= 4:
         recommendations = ["🏊 수영", "🚴 자전거"]
     else:
-        recommendations = ["🏃 마라톤", "🏋️ 웨이트 트레이닝"]
+        recommendations = ["🥋 주짓수", "🏃 마라톤"]
 
 elif personality == "도전적이고 승부욕 강한 성격":
     if fitness <= 2:
-        recommendations = ["🤼 주짓수", "🥋 태권도"]
+        recommendations = ["🏓 탁구", "🎯 다트"]
     elif fitness <= 4:
-        recommendations = ["🥊 복싱", "🤺 펜싱"]
+        recommendations = ["🥋 주짓수", "🤼 유도"]
     else:
-        recommendations = ["🏋️ 크로스핏", "🥇 철인 3종 경기"]
+        recommendations = ["🥋 주짓수", "🥊 복싱", "🥋 태권도"]
 
 elif personality == "창의적이고 자유로운 성격":
     if fitness <= 2:
-        recommendations = ["🕺 댄스", "🤸‍♀️ 필라테스"]
+        recommendations = ["🩰 발레", "🧘 요가"]
     elif fitness <= 4:
-        recommendations = ["🛹 스케이트보드", "🎿 스키"]
+        recommendations = ["💃 댄스", "🛹 스케이트보드"]
     else:
-        recommendations = ["🏄 서핑", "🚵 산악자전거"]
+        recommendations = ["🤸‍♂️ 체조", "🏄 서핑"]
 
-elif personality == "집중 잘하고 혼자 하는 걸 좋아하는 성격":
+elif personality == "집중 잘하고 혼자 하는 성격":
     if fitness <= 2:
-        recommendations = ["🎯 다트", "🎳 볼링"]
+        recommendations = ["🎳 볼링", "🎯 양궁"]
     elif fitness <= 4:
-        recommendations = ["🏹 양궁", "⛳ 골프"]
+        recommendations = ["🏌️ 골프", "🏹 양궁"]
     else:
-        recommendations = ["🏓 탁구", "🥌 컬링"]
+        recommendations = ["🏊 철인 3종 경기", "🚵 산악 자전거"]
 
-# 결과 출력
+# ---------------- 출력 파트 ----------------
 st.subheader("🎉 추천 결과 🎉")
-for sport in recommendations:
-    st.write(sport)
+if recommendations:
+    for sport in recommendations:
+        st.write(f"- {sport}")
+else:
+    st.write("조건에 맞는 운동을 찾지 못했어요 😢")
 
-# 이미지 예시 (로컬 or URL 가능)
-# ✅ 인터넷 연결 안되면, 같은 폴더에 sport.jpg 저장해두고 불러오기
-try:
-    st.image("https://cdn.pixabay.com/photo/2017/04/06/22/13/sport-2200733_1280.png", use_container_width=True)
-except:
-    st.image("sport.jpg", use_container_width=True)
-
+st.success("운동은 꾸준함이 가장 중요해요! 파이팅! 💪")
