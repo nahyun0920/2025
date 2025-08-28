@@ -1,74 +1,71 @@
 import streamlit as st
+import random
 
-# 🌟 페이지 설정
-st.set_page_config(page_title="스포츠 추천 사이트", page_icon="⚽", layout="wide")
+st.set_page_config(page_title="🔥성격별 스포츠 추천🔥", page_icon="⚡", layout="wide")
 
-# 🎨 제목 꾸미기
-st.title("🏋️‍♂️ 성격 & 체력 기반 스포츠 추천 🎯")
-st.markdown("---")
-
-# ✅ 성격유형 선택
-st.subheader("😀 당신의 성격 유형을 선택하세요!")
-personality = st.selectbox(
-    "성격유형",
-    [
-        "🔥 도전적이고 적극적인 유형",
-        "🤝 협동적이고 사교적인 유형",
-        "🧘‍♂️ 차분하고 집중력 있는 유형",
-        "🎨 창의적이고 유연한 유형",
-        "🏃‍♂️ 활동적이고 에너지 넘치는 유형",
-        "🎯 목표 지향적이고 승부욕 강한 유형",
-        "😎 혼자 몰입하기 좋아하는 유형",
-        "💪 강인하고 끈기 있는 유형",
-    ],
+st.markdown(
+    """
+    <h1 style='text-align: center; color: #ff5733; font-size:60px;'>✨ 성격 유형별 스포츠 추천 ✨</h1>
+    <p style='text-align: center; font-size:22px;'>당신의 성격에 맞는 운동 종목을 찾아보세요! ⚡🏆</p>
+    """,
+    unsafe_allow_html=True
 )
 
-# ✅ 체력수준 선택
-st.subheader("💪 당신의 체력 수준을 선택하세요!")
-fitness = st.radio("체력 수준", ["낮음 🌱", "중간 ⚡", "높음 🔥"])
-
-st.markdown("---")
-
-# 🎯 스포츠 데이터 (카테고리별)
-sports = {
-    "⚽ 구기 종목": [
-        "축구", "농구", "배구", "야구", "핸드볼", "럭비", "아메리칸풋볼", "풋살",
-        "소프트볼", "하키(필드/아이스)", "게이트볼", "피구"
+# 성격 유형별 스포츠 추천 데이터
+sports_recommendations = {
+    "모험을 좋아하는 유형 🌋": [
+        "🥋 주짓수", "🥊 복싱", "🥷 태권도", "⛷ 스키", "🏂 스노우보드", "🏄‍♂️ 서핑", "🧗 암벽등반", "🚵 MTB", "🏇 승마"
     ],
-    "🥋 무술 & 격투기": [
-        "주짓수", "유도", "태권도", "가라테", "쿵푸", "복싱", "킥복싱", "레슬링",
-        "삼보", "무에타이", "검도", "펜싱", "MMA 종합격투기"
+    "협동을 중시하는 유형 🤝": [
+        "⚽ 축구", "🏀 농구", "🏐 배구", "🏒 아이스하키", "🥅 핸드볼", "🏉 럭비", "🥎 소프트볼"
     ],
-    "🏊‍♀️ 수상 & 레저 스포츠": [
-        "수영", "서핑", "스쿠버다이빙", "요트", "카약", "패들보드", "수구",
-        "윈드서핑", "웨이크보드", "래프팅"
+    "인내심 강한 유형 🧘": [
+        "🏊 수영", "🚴 사이클", "🏃 마라톤", "⛷ 크로스컨트리", "🚣 조정", "🏌️ 골프"
     ],
-    "⛷️ 익스트림 & 레저": [
-        "스키", "스노보드", "스케이트보드", "인라인스케이트", "클라이밍",
-        "패러글라이딩", "스카이다이빙", "산악자전거(MTB)", "모터크로스"
+    "집중력이 뛰어난 유형 🎯": [
+        "🏹 양궁", "🤺 펜싱", "🎱 당구", "♟ 체스(두뇌 스포츠)", "🎳 볼링", "🕹 e스포츠"
     ],
-    "🏃‍♂️ 개인 스포츠": [
-        "육상", "마라톤", "사이클", "양궁", "골프", "테니스", "배드민턴",
-        "탁구", "볼링", "스쿼시", "철인 3종 경기", "체조"
+    "도전을 즐기는 유형 🔥": [
+        "🤼 레슬링", "🥋 유도", "🥊 킥복싱", "🤸 체조", "🏇 승마 점프", "🛹 스케이트보드"
     ],
-    "🧘‍♀️ 체력단련 & 피트니스": [
-        "웨이트트레이닝", "크로스핏", "요가", "필라테스", "줌바댄스",
-        "에어로빅", "케틀벨 트레이닝", "파워리프팅"
+    "창의적인 유형 🎨": [
+        "⛸ 피겨스케이팅", "🤸 리듬체조", "🎤 댄스스포츠", "🎭 치어리딩"
+    ],
+    "차분한 유형 🌙": [
+        "🏹 양궁", "🎾 테니스", "🏓 탁구", "🏸 배드민턴", "⛳ 골프", "🥋 합기도"
+    ],
+    "리더십이 강한 유형 👑": [
+        "⚽ 축구 주장", "🏀 농구 주장", "🏉 럭비", "🏐 배구", "🥅 아이스하키 주장"
     ]
 }
 
-# 🖼️ 결과 출력
-st.subheader("📌 당신에게 맞는 스포츠 종합 추천 리스트")
+# 성격 유형 선택
+st.markdown("## 👉 당신의 성격 유형을 선택하세요 😎")
+selected_type = st.selectbox("성격유형 선택 🎭", list(sports_recommendations.keys()))
 
-for category, items in sports.items():
-    with st.expander(category + " 보기", expanded=True):
-        st.markdown(f"**{category}**")
-        st.write(" | ".join([f"🏅 {s}" for s in items]))
+st.markdown(f"### ✨ {selected_type} 에게 어울리는 스포츠는... 🎉")
 
-st.success(f"✅ {personality} / {fitness} 체력 수준에 맞는 다양한 스포츠를 확인해보세요!")
+# 카드 형식으로 추천 종목 표시
+cols = st.columns(3)
+sports = sports_recommendations[selected_type]
 
-# 🔥 하단 문구
+for i, sport in enumerate(sports):
+    with cols[i % 3]:
+        st.markdown(
+            f"""
+            <div style="background-color:#ffe6e6; border-radius:20px; padding:20px; margin:10px; text-align:center; 
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.2); font-size:25px;">
+            {sport}
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
 st.markdown("---")
-st.markdown("### 🚀 꾸준히 운동하며 자신에게 맞는 종목을 찾아보세요! 💯")
+st.markdown(
+    "<h3 style='text-align:center; color:#0077b6;'>💪 오늘부터 새로운 스포츠에 도전해보세요! 🏆🔥</h3>",
+    unsafe_allow_html=True
+)
+
 
 
