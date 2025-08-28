@@ -8,15 +8,15 @@ st.markdown(
     "<h1 style='text-align:center; color:#ff5733;'>🏆 나에게 맞는 스포츠 찾기 🎯</h1>",
     unsafe_allow_html=True
 )
-st.markdown("<p style='text-align:center; font-size:18px;'>성격 유형과 체력 수준을 선택하면 당신에게 딱 맞는 운동 종목을 추천해드립니다! 💪🔥</p>",
+st.markdown("<p style='text-align:center; font-size:18px;'>성격 유형과 체력 수준을 선택하면 당신에게 딱 맞는 운동 종목을 추천합니다! 💪🔥</p>",
             unsafe_allow_html=True)
 
 # ---------------- 성격 유형별 스포츠 ---------------- #
 sports_data = {
     "도전적인 모험가 🧗‍♂️": {
-        "낮음 💤": ["주짓수 🥋", "클라이밍 🧗", "킥복싱 🦵", "무에타이 🥊"],
-        "보통 🙂": ["레슬링 🤼", "철인3종 🏊🚴🏃", "복싱 🥊", "펜싱 🤺"],
-        "높음 🔥": ["MMA 🥊🤼", "크로스핏 💪", "유도 🥋", "스파르탄 레이스 🏃‍♂️🔥"]
+        "낮음 💤": ["클라이밍 🧗", "가벼운 요가 🧘", "필라테스 🤸"],
+        "보통 🙂": ["주짓수 🥋", "킥복싱 🦵", "무에타이 🥊", "복싱 🥊", "레슬링 🤼"],
+        "높음 🔥": ["주짓수 🥋", "킥복싱 🦵", "무에타이 🥊", "MMA 🥊🤼", "크로스핏 💪", "스파르탄 레이스 🏃‍♂️🔥"]
     },
     "활발한 에너자이저 ⚡": {
         "낮음 💤": ["피구 🔴", "농구 🏀", "하키 🏒", "배구 🏐"],
@@ -94,5 +94,4 @@ for i, sport in enumerate(recommendations):
 
 st.balloons()
 st.success(f"✨ {selected_personality} + {selected_fitness} 체력 수준에 맞는 스포츠를 확인하세요! 🎉")
-
 
